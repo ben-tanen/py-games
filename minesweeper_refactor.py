@@ -198,9 +198,6 @@ def get_unchecked_surrounding_spaces(board, move):
 
     return spaces
 
-for x in range(-1,2):
-        print x
-
 play_game()
 
 
