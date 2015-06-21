@@ -5,7 +5,7 @@ import os
 def play_game():
     # determine size of board and number of mines
     board_size = get_board_size()
-    num_mine = [5, 15, 40][(board_size / 5) - 1]
+    num_mine = [1, 15, 40][(board_size / 5) - 1]
 
     # generate board and place mines
     board = generate_board(board_size)
@@ -167,22 +167,21 @@ def place_move(board, mine_list, move):
             
             while len(to_do_spaces) != 0:
                 active = to_do_spaces.pop(0)
-                if board[active[0]][active[1]] == '~' and get_surrounding_bomb_count(mine_list, active) == 0:
+                if board[active[0]][active[1]] == '~':
                     board[active[0]][active[1]] = str(get_surrounding_bomb_count(mine_list, active))
-                    to_do_spaces += get_unchecked_surrounding_spaces(board, active)
+                    if get_surrounding_bomb_count(mine_list, active) == 0:
+                        to_do_spaces += get_unchecked_surrounding_spaces(board, active)
 
         return 'open'
 
 def get_surrounding_bomb_count(mine_list, move):
     surrounding_bombs = 0
-    surrounding_bombs += [move[0] - 1, move[1] - 1] in mine_list # upper left
-    surrounding_bombs += [move[0],     move[1] - 1] in mine_list # upper middle
-    surrounding_bombs += [move[0] + 1, move[1] - 1] in mine_list # upper right
-    surrounding_bombs += [move[0] - 1, move[1]] in mine_list # middle left
-    surrounding_bombs += [move[0] + 1, move[1]] in mine_list # middle right
-    surrounding_bombs += [move[0] - 1, move[1] + 1] in mine_list # lower left
-    surrounding_bombs += [move[0],     move[1] + 1] in mine_list # lower middle
-    surrounding_bombs += [move[0] + 1, move[1] + 1] in mine_list # lower right
+
+    for inc_col in range(-1,2):
+        for inc_row in range(-1,2):
+            if not (inc_col == 0 and inc_row == 0):
+                    surrounding_bombs += [move[0] + inc_row, move[1] + inc_col] in mine_list
+
     return surrounding_bombs
 
 def get_unchecked_surrounding_spaces(board, move):
