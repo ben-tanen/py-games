@@ -57,7 +57,7 @@ class blackjack_hand:
         value = [0, 0]
         numAces = 0
         
-        # for each card in ahdn
+        # for each card in hand
         for card in self.hand:
             # if the card is an ace
             if card[0] == 'A':
@@ -98,9 +98,7 @@ class blackjack_hand:
                 outputStr += ', '
         
         # determines whether to show two values or one
-        if self.ace_in_hand() and self.value[1] > 21:
-            outputStr += ' (Total: ' + str(self.value[0]) + ')'
-        elif self.ace_in_hand():
+        if self.ace_in_hand() and self.value[1] <= 21:
             outputStr += ' (Total: ' + str(self.value[0]) + ' or ' + str(self.value[1]) + ')'
         else:
             outputStr += ' (Total: ' + str(self.value[0]) + ')'

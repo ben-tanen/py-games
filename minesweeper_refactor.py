@@ -5,7 +5,7 @@ import os
 def play_game():
     # determine size of board and number of mines
     board_size = get_board_size()
-    num_mine = [1, 15, 40][(board_size / 5) - 1]
+    num_mine = [5, 15, 40][(board_size / 5) - 1]
 
     # generate board and place mines
     board = generate_board(board_size)
