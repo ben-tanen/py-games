@@ -38,7 +38,7 @@ def get_board_size():
 
     # keep asking for board size until user gives valid one
     while True:
-        board_size = raw_input(">> Board Size (" + str(low_bound) + " - " + str(high_bound) + ") ==> ")
+        board_size = input(">> Board Size (" + str(low_bound) + " - " + str(high_bound) + ") ==> ")
 
         # check if board size is valid (within range & of int type)
         try: 
@@ -62,19 +62,19 @@ def print_board(board):
     # generate / print top line
     top = '  '
     for y in range(0,len(board)):
-        top += unichr(65 + y) + '  '
-    print top
+        top += chr(65 + y) + '  '
+    print(top)
 
     # print contents of board
     for x in range(0,len(board)):
-        print "| " + "  ".join(board[x]) + " | " + str(x+1)
+        print("| " + "  ".join(board[x]) + " | " + str(x+1))
 
     print
 
 # print the board with a message following
 def print_board_with_msg(board, msg):
     print_board(board)
-    print msg
+    print(msg)
           
 # get random row for ship to exist in
 def random_row(list):
@@ -88,7 +88,7 @@ def random_col(list):
 # also validates that it is of the correct format
 def get_guess(board, guess_num, ship_col, ship_row):
     while True:
-        guess = raw_input(">> Guess " + str(guess_num) + "/" + str(int(len(board)**2 * .75) - 1) + ": Where do you think the ship is? Ex: B3 ==> ").upper()
+        guess = input(">> Guess " + str(guess_num) + "/" + str(int(len(board)**2 * .75) - 1) + ": Where do you think the ship is? Ex: B3 ==> ").upper()
 
         # if guess is of valid format, return guess
         if is_valid_guess(board, guess):
@@ -98,7 +98,7 @@ def get_guess(board, guess_num, ship_col, ship_row):
         elif guess == "QUIT" or guess == "Q":
             sys.exit('System Quit')
         elif guess == "TELL ME":
-            print '>> cheater... ' + str(ship_col) + ', ' + str(ship_row)
+            print('>> cheater... ' + str(ship_col) + ', ' + str(ship_row))
 
 # determines if guess is of the correct format
 def is_valid_guess(board, guess):

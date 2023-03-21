@@ -35,7 +35,7 @@ class deck:
     
     # return all cards from used to unused (shuffling)
     def shuffle(self):
-        print ">> Shuffling..."
+        print(">> Shuffling...")
         for x in self.used_cards:
             self.unused_cards.append(x)
         self.used_cards = [ ]
@@ -126,7 +126,7 @@ class blackjack_game:
         self.rounds_played = 0
         
     def play(self, count_cards=False):
-        print ">> Welcome to Blackjack!"
+        print(">> Welcome to Blackjack!")
         
         playAgain = ''
         while len(playAgain) == 0 or playAgain[0].lower() != 'n':
@@ -143,32 +143,32 @@ class blackjack_game:
             self.result()
             
             if self.money <= 0:
-                print ">> You're out of money!"
+                print(">> You're out of money!")
                 break
             
-            playAgain = raw_input("Play Again? ")
+            playAgain = input("Play Again? ")
             os.system('clear')
         
-        print ">> You played " + str(self.rounds_played) + " rounds and"
-        print ">> You finished the game with $" + str(self.money)
+        print(">> You played " + str(self.rounds_played) + " rounds and")
+        print(">> You finished the game with $" + str(self.money))
         
         
     def make_bet(self, count_cards):
         if str(self.money)[len(str(self.money))-3:len(str(self.money))-2] == '.':
-            print '>> Money: $' + str(self.money)
+            print('>> Money: $' + str(self.money))
         else:
-            print '>> Money: $' + str(self.money) + '0'
+            print('>> Money: $' + str(self.money) + '0')
             
         if count_cards:
-            print '>> Count: ' + str(self.count)
+            print('>> Count: ' + str(self.count))
             
-        bet_input = raw_input("Place your bet: ")
+        bet_input = input("Place your bet: ")
         if bet_input[-1] == "%":
             self.bet = round(float(self.money * (float(bet_input[:-2])/10)),2)
         else:
             self.bet = round(float(eval(bet_input)),2)
         if self.bet > self.money:
-            print ">> You bet more than you have. Bet set to $" + str(self.money)
+            print(">> You bet more than you have. Bet set to $" + str(self.money))
             self.bet = self.money
         
     def deal(self):
@@ -178,37 +178,37 @@ class blackjack_game:
     def user_play(self, hand):
         if hand == self.user_hand:
             hand = self.user_hand
-            print '\n>> Dealer has: ' + self.comp_hand.hand[0]
+            print('\n>> Dealer has: ' + self.comp_hand.hand[0])
         
-        print '>> Your ' + hand.display()
+        print('>> Your ' + hand.display())
         while hand.value[0] < 21:
             if hand.best_value() == 21:
                 break
             
-            move = raw_input('Hit or Stay? ' )
+            move = input('Hit or Stay? ' )
             if move.lower() == 'stay':
                 break
             elif move.lower() == 'hit':
                 hand.add_card(self.deck.get_card())
             elif move.lower() == 'double':
                 hand.add_card(self.deck.get_card())
-                print '>> Your ' + hand.display()
+                print('>> Your ' + hand.display())
                 self.bet *= 2
                 break
             elif self.can_split(hand.hand) and move.lower() == 'split':
                 split_a = blackjack_hand(hand.hand[0], self.deck.get_card())
                 split_b = blackjack_hand(hand.hand[1], self.deck.get_card())
-                print "\n>> Split A:"
+                print("\n>> Split A:")
                 self.user_play(split_a)
                 
-                print "\n>> Split B:"
+                print("\n>> Split B:")
                 self.user_play(split_b)
                 return
             else:
-                print '>> Invalid Move. Hitting...'
+                print('>> Invalid Move. Hitting...')
                 self.user_hand.add_card(self.deck.get_card())
             
-            print '>> Your ' + hand.display()
+            print('>> Your ' + hand.display())
             
         
         self.card_count(hand)        
@@ -220,36 +220,36 @@ class blackjack_game:
         
         self.card_count(self.comp_hand)
         if len(self.results) > 1:
-            print '\n>> Dealer ' + self.comp_hand.display()
+            print('\n>> Dealer ' + self.comp_hand.display())
             
     def result(self):
         for result in self.results:
             if len(self.results) > 1:
-                print ">> Hand Value: " + str(result)
+                print(">> Hand Value: " + str(result))
             if result == 21:
-                print ">> You got blackjack!"
+                print(">> You got blackjack!")
                 self.money += self.bet
             elif result > 21:
-                print ">> You busted, sorry."
+                print(">> You busted, sorry.")
                 self.money -= self.bet
             elif self.comp_hand.value[0] > 21:
                 if len(self.results) == 1:
-                    print '\n>> Dealer ' + self.comp_hand.display()
-                print ">> The dealer busted, you won!"
+                    print('\n>> Dealer ' + self.comp_hand.display())
+                print(">> The dealer busted, you won!")
                 self.money += self.bet
             elif result > self.comp_hand.best_value():
                 if len(self.results) == 1:
-                    print '\n>> Dealer ' + self.comp_hand.display()
-                print ">> You beat the dealer!"
+                    print('\n>> Dealer ' + self.comp_hand.display())
+                print(">> You beat the dealer!")
                 self.money += self.bet
             elif result == self.comp_hand.best_value():
                 if len(self.results) == 1:
-                    print '\n>> Dealer ' + self.comp_hand.display()
-                print ">> Push..."
+                    print('\n>> Dealer ' + self.comp_hand.display())
+                print(">> Push...")
             else:
                 if len(self.results) == 1:
-                    print '\n>> Dealer ' + self.comp_hand.display()
-                print ">> The dealer beat you, sorry."
+                    print('\n>> Dealer ' + self.comp_hand.display())
+                print(">> The dealer beat you, sorry.")
                 self.money -= self.bet
      
     def card_count(self, hand):

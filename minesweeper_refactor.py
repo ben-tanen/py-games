@@ -5,7 +5,7 @@ import os
 def play_game():
     # determine size of board and number of mines
     board_size = get_board_size()
-    num_mine = [5, 15, 40][(board_size / 5) - 1]
+    num_mine = [5, 15, 40][int(board_size / 5) - 1]
 
     # generate board and place mines
     board = generate_board(board_size)
@@ -35,10 +35,10 @@ def play_game():
                 sys.exit()
 
 def get_board_size():
-    print 'Board Size:\nA - 5x5\nB - 10x10\nC - 15x15'
+    print('Board Size:\nA - 5x5\nB - 10x10\nC - 15x15')
     query_string = 'What size board would you like? '
     while True:
-        size = raw_input(query_string).lower()
+        size = input(query_string).lower()
 
         if size == 'a' or size == '5' or size == '5x5':
             return 5
@@ -80,12 +80,12 @@ def print_board(board):
     # generate / print top line
     top = '  '
     for y in range(0,len(board)):
-        top += unichr(65 + y) + '  '
-    print top
+        top += chr(65 + y) + '  '
+    print(top)
 
     # print contents of board
     for x in range(0,len(board)):
-        print "| " + "  ".join(board[x]) + " | " + str(x+1)
+        print("| " + "  ".join(board[x]) + " | " + str(x+1))
 
     print
 
@@ -93,11 +93,11 @@ def print_board(board):
 def print_board_with_msg(board, msg):
     os.system('clear')
     print_board(board)
-    print msg
+    print(msg)
 
 def get_next_move(board):
     while True:
-        move = raw_input("-> ").upper()
+        move = input("-> ").upper()
 
         # if move is of valid format, return guess
         if move[0] == '*' and is_valid_move(board, move):
@@ -113,7 +113,7 @@ def get_next_move(board):
 def is_valid_move(board, move):
     # check if guess is correct length
     if len(move) < 2:
-        print 'Error: move input too short'
+        print('Error: move input too short')
         return False
 
     # set move to be array of form: [col, row, is_flag]
@@ -126,26 +126,26 @@ def is_valid_move(board, move):
     try: 
         move[0] = int(move[0]) - 1
     except ValueError:
-        print 'Error: invalid move row number'
+        print('Error: invalid move row number')
         return False
 
     # check if letter is in valid range
     if move[1] < 0 or move[1] > len(board):
-        print 'Error: move letter out of range'
+        print('Error: move letter out of range')
         return False
 
     # check if guess number is in valid range
     if move[0] > len(board) or move[0] < 0:
-        print 'Error: move number out of range'
+        print('Error: move number out of range')
         return False
 
     # check if space has already been guessed
     if board[move[0]][move[1]] != '~':
-        print 'Error: space already revealed'
+        print('Error: space already revealed')
         return False
 
     if move[2] and board[move[0]][move[1]] == '*':
-        print 'Error: space already flagged'
+        print('Error: space already flagged')
         return False
 
     return True
